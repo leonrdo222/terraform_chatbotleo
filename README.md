@@ -50,8 +50,8 @@ This project is ideal for:
 ---
 
 ## 🏗 2. Architecture
+<img width="1538" height="855" alt="AI Chatbot Infrastructure on AWS drawio" src="https://github.com/user-attachments/assets/8fae4fdc-0e6e-4331-8ca7-6aa5afa3a6c0" />
 
-<img width="1538" height="855" alt="AI Chatbot Infrastructure on AWS" src="https://github.com/user-attachments/assets/c3458312-b55e-47ae-a045-b81bba532910" />
 
 ### 🔍 Component Breakdown
 
@@ -141,35 +141,7 @@ Dependencies installed:
 - Tornado  
 - NLTK wordnet + punkt  
 
----
-# ⚙️ **3. Prerequisites & Setup**
-
-## 🏢 AWS Requirements
-You must have:
-
-- AWS Account  
-- Route53 Hosted Zone (example: `leonow.site`)  
-- IAM permissions for:
-  - EC2
-  - VPC
-  - ALB
-  - ACM
-  - Route53
-  - IAM  
-
-## 💻 Local Requirements
-Install:
-
-- Terraform 1.5+
-- AWS CLI
-- Git
-
-Configure AWS:
-
-```bash
-aws configure
-
-#Deployment Guide
+#### deployment guide 
 1️⃣ Initialize Terraform
 terraform init
 
@@ -179,11 +151,9 @@ terraform plan
 3️⃣ Apply the infrastructure
 terraform apply -auto-approve
 
-
 Terraform will create:
 
 VPC
-
 Public/Private Subnets
 Internet Gateway
 NAT Gateway (if included)
@@ -193,27 +163,21 @@ EC2 Launch Template
 ACM certificate
 Route53 DNS record for leonow.site
 
-##5. Administration & Debugging
+##### 5. Administration & Debugging
 ✔ Check chatbot status
 sudo systemctl status chatbot
-
 ✔ View application logs
 sudo journalctl -u chatbot -n 50 --no-pager
-
 ✔ Confirm the app is listening
 sudo ss -ltnp | grep 8080
-
 ✔ Check ALB health status
 curl http://localhost:8080/
 
-#6. Scaling
+#### 6. Scaling
 
 Modify scaling configuration in:
-
 modules/autoscaling/main.tf
-
 Example:
-
 desired_capacity = 2
 min_size         = 1
 max_size         = 4
@@ -222,55 +186,41 @@ max_size         = 4
 The Auto Scaling Group automatically:
 
 Replaces unhealthy EC2 instances
-
 Scales up when CPU load increases
-
 Scales down during low usage
 
-#7. Troubleshooting
+#### 7. Troubleshooting
 ❌ 504 Gateway Timeout
 
 Cause: EC2 instance failing health checks
 
 Fixes:
-
 Verify chatbot listens on 0.0.0.0:8080
-
 Check systemctl status chatbot
-
 Ensure correct ALB target group port
-
 Fix broken dependencies in userdata
 
 ❌ ALB shows “unhealthy targets”
 
 Fix:
-
 Correct health check path (usually /)
-
 Confirm Tornado app started successfully
 
 ❌ TensorFlow killed during installation
 
 Fix:
-
 Use CPU-only TensorFlow
-
 Add swap file if needed
-
 Install dependencies BEFORE TensorFlow
 
 ❌ User data failed
 
 Fix:
-
 Reorder package installation
-
 Add error logs
-
 Ensure GitHub repo reachable
 
-#8. Repository Structure
+#### 8. Repository Structure
 terraform_chatbotleo/
 │
 ├── main.tf
@@ -287,30 +237,23 @@ terraform_chatbotleo/
 └── scripts/
     └── userdata.sh
 
-#9. Cleanup (Avoid AWS Charges)
+#### 9. Cleanup (Avoid AWS Charges)
 
 To remove everything:
 
 terraform destroy -auto-approve
 
-
 This deletes:
 
 EC2 instances
-
 VPC
-
 ALB
-
 IAM roles
-
 Route53 records
-
 ACM certificates
-
 Auto Scaling Group
 
-#10. Author
+### 10. Author
 
 Leonardo
 GitHub: https://github.com/leonrdo222
